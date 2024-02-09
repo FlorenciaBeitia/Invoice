@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
+import jsPDF from 'jspdf';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,18 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+  @ViewChild('content', {static: false}) el!: ElementRef;
+  
   title = 'Invoice';
+
+  makePDF(){
+
+    let pdf = new jsPDF('p','px','A4');
+
+    pdf.html(this.el.nativeElement,{
+      callback:(pdf)=>{
+        pdf.save("TaxInvoice.pdf"); 
+      }
+    });
+  }
 }
